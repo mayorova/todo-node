@@ -18,6 +18,8 @@
   "homepage": "https://github.com/mayorova/todo-node#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "keycloak-connect": "^4.5.0",
     "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.39.0"

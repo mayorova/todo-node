@@ -1,9 +1,22 @@
 var express = require('express');
+var session = require('express-session');
 
 var app = express();
 
 var port = parseInt(process.env.PORT, 10) || 3000,
     ip   = process.env.IP   || '0.0.0.0';
+
+// Session store
+var memoryStore = new session.MemoryStore();
+app.use(session({
+    secret: 'my-super-secret',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore,
+}))
+
+const keycloak = require('./middleware/keycloak');
+app.use(keycloak.middleware());
 
 // Register the API routes under /api/v1/
 app.use('/api/v1/', require('./routes/api_v1'));

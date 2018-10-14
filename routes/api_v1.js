@@ -6,14 +6,16 @@ var jsonParser = bodyParser.json()
 
 const todosCtrl = require('../controllers/todos');
 
-router.get('/todos', todosCtrl.list);
+const keycloak = require('../middleware/keycloak');
 
-router.get('/todos/:id', todosCtrl.read);
+router.get('/todos', keycloak.protect(), todosCtrl.list);
 
-router.post('/todos', jsonParser, todosCtrl.create);
+router.get('/todos/:id', keycloak.protect(), todosCtrl.read);
 
-router.put('/todos/:id', jsonParser, todosCtrl.update);
+router.post('/todos', keycloak.protect(), jsonParser, todosCtrl.create);
 
-router.delete('/todos/:id', todosCtrl.delete);
+router.put('/todos/:id', keycloak.protect(), jsonParser, todosCtrl.update);
+
+router.delete('/todos/:id', keycloak.protect(), todosCtrl.delete);
 
 module.exports = router
