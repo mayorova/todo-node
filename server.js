@@ -13,33 +13,57 @@ app.use('/api/v1/', api);
 // application/json parser
 var jsonParser = bodyParser.json()
 
-var dummyData = [
-  {
-    id: 1,
-    title: 'The first ToDo',
-    description: 'This is the very first ToDo in this app.'
-  },
-  {
-    id: 2,
-    title: 'Add more features',
-    description: 'Add more features to this app.'
-  }
-];
+const Todo = require('./models').Todo;
 
 api.get('/todos', function(req, res) {
-  res.json(dummyData);
+  return Todo
+    .all()
+    .then(todos => res.status(200).send(todos))
+    .catch(error => res.status(400).send(error));
 });
 
 api.get('/todos/:id', function(req, res) {
-  res.json(dummyData[0]);
+  return Todo
+    .findById(req.params.id)
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send({
+          error: 'ToDo Not Found',
+        });
+      }
+      return res.status(200).send(todo);
+    })
+    .catch(error => res.status(400).send(error));
 });
 
 api.post('/todos', jsonParser, function(req, res) {
-  res.json(req.body);
+   return Todo
+     .create({
+       title: req.body.title,
+       description: req.body.description
+     })
+     .then(todo => res.status(201).send(todo))
+     .catch(error => res.status(400).send(error));
 });
 
 api.put('/todos/:id', jsonParser, function(req, res) {
-  res.json(req.body);
+  return Todo
+    .findById(req.params.id)
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send({
+          error: 'ToDo Not Found',
+        });
+      }
+      return todo
+        .update({
+          title: req.body.title || todo.title,
+          description: req.body.description || todo.description
+        })
+        .then(() => res.status(200).send(todo))
+        .catch((error) => res.status(400).send(error));
+    })
+    .catch((error) => res.status(400).send(error));
 });
 
 api.delete('todos/:id', function(req, res) {
