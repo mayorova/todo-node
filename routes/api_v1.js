@@ -14,8 +14,6 @@ router.post('/todos', jsonParser, todosCtrl.create);
 
 router.put('/todos/:id', jsonParser, todosCtrl.update);
 
-router.delete('todos/:id', function(req, res) {
-  res.sendStatus(200);
-});
+router.delete('/todos/:id', todosCtrl.delete);
 
 module.exports = router

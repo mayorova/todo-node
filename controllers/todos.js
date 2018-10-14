@@ -48,7 +48,23 @@ const todosCtrl = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
-  }
+  },
+  delete(req, res) {
+    return Todo
+      .findById(req.params.id)
+      .then(todo => {
+        if (!todo) {
+          return res.status(400).send({
+            error: 'ToDo Not Found',
+          });
+        }
+        return todo
+          .destroy()
+          .then(() => res.status(204).send())
+          .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
+  },
 };
 
 module.exports = todosCtrl;
