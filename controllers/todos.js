@@ -25,7 +25,8 @@ const todosCtrl = {
     return Todo
       .create({
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        userId: 1
       })
       .then(todo => res.status(201).send(todo))
       .catch(error => res.status(400).send(error));
