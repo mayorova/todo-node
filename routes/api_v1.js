@@ -17,6 +17,8 @@ router.post('/todos', keycloak.protect(), jwtParser(), jsonParser, todosCtrl.cre
 
 router.put('/todos/:id', keycloak.protect(), jwtParser(), jsonParser, todosCtrl.update);
 
+router.patch('/todos/:id', keycloak.protect(), jwtParser(), jsonParser, todosCtrl.patch);
+
 router.delete('/todos/:id', keycloak.protect(), jwtParser(), todosCtrl.delete);
 
 module.exports = router
