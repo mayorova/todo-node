@@ -1,13 +1,14 @@
-var express = require('express');
-var session = require('express-session');
+const express = require('express');
+const session = require('express-session');
 
-var app = express();
+const app = express();
 
-var port = parseInt(process.env.PORT, 10) || 3000,
-    ip   = process.env.IP   || '0.0.0.0';
+const portValue = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT;
+const port = parseInt(portValue, 10) || 3000;
+const ip = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '0.0.0.0';
 
 // Session store
-var memoryStore = new session.MemoryStore();
+const memoryStore = new session.MemoryStore();
 app.use(session({
     secret: 'my-super-secret',
     resave: false,
