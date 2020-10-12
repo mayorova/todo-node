@@ -10,7 +10,7 @@ const todosCtrl = {
         return Todo
           // Only get ToDos of the authenticated user
           .findAll({ where: { userId: user.id }})
-          .then(todo => res.status(201).send(todo))
+          .then(todo => res.status(200).send(todo))
       })
       .catch(error => res.status(400).send(error));
   },
