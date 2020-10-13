@@ -1,0 +1,196 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ToDo API",
+    "description": "A sample ToDo API",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://echo-api.3scale.net/api/v1"
+    }
+  ],
+  "paths": {
+    "/todos": {
+      "get": {
+        "summary": "List All ToDos",
+        "description": "Gets a list of all `ToDo` entities.",
+        "operationId": "getToDos",
+        "responses": {
+          "200": {
+            "description": "Successful response - returns an array of `ToDo` entities.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToDo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a ToDo",
+        "description": "Creates a new instance of a `ToDo`.",
+        "operationId": "createToDo",
+        "requestBody": {
+          "description": "A new `ToDo` to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToDo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response.",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/todos/{todoId}": {
+      "get": {
+        "summary": "Get a ToDo",
+        "description": "Gets the details of a single instance of a `ToDo`.",
+        "operationId": "getToDo",
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "description": "A unique identifier for a `ToDo`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response - returns a single `ToDo`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToDo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a ToDo",
+        "description": "Updates an existing `ToDo`.",
+        "operationId": "updateToDo",
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "description": "A unique identifier for a `ToDo`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated `ToDo` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToDo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response.",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "summary": "Delete a ToDo",
+        "description": "Deletes an existing `ToDo`.",
+        "operationId": "deleteToDo",
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "description": "A unique identifier for a `ToDo`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful response.",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ToDo": {
+        "title": "ToDo object",
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the ToDo."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the ToDo."
+          },
+          "done": {
+            "type": "object",
+            "description": "The indicator of whether the ToDo is completed."
+          }
+        },
+        "description": "The ToDO object definition.",
+        "example": "{\n    \"name\": \"Water the plants\",\n    \"description\": \"Water the plants on the balcony.\",\n    \"done\": false\n}"
+      }
+    },
+    "securitySchemes": {
+      "oAuth": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 flows for the API",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-user-sso.apps.agora-3e14.example.opentlc.com/auth/realms/threescale/protocol/openid-connect/auth",
+            "tokenUrl": "https://sso-user-sso.apps.agora-3e14.example.opentlc.com/auth/realms/threescale/protocol/openid-connect/token",
+            "scopes": {
+              "openapi": "generic OpenAPI scope"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oAuth": [
+        "openid"
+      ]
+    }
+  ]
+}
